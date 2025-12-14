@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="NGN LMTS Portal - Access KZN Daily Tracking, Gauteng Maintenance, and Link Builds.">
+<title>NGN LMTS Portal</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+    /* ---------------------------------------------------
+       CINEMATIC BLACK → GRADIENT LOADING SCREEN
+    --------------------------------------------------- */
+    #loader {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(180deg, #000000, #1a1a1a);
+        z-index: 50;
+        opacity: 1;
+        transition: opacity 1.4s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #loader.fade-out {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* Logo animation inside loader */
+    #loader-logo {
+        color: white;
+        font-size: 40px;
+        font-weight: 800;
+        animation: pulse 1.2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 0.4; transform: scale(0.95); }
+        50% { opacity: 1; transform: scale(1.05); }
+        100% { opacity: 0.4; transform: scale(0.95); }
+    }
+
+    /* ---------------------------------------------------
+       CONTENT ANIMATION — slide from left 
+    --------------------------------------------------- */
+    body {
+        opacity: 0;
+        transform: translateX(-300px);
+        transition: opacity 4s ease, transform 4s ease;
+    }
+
+    body.show-content {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+
+    .heading-animate {
+        opacity: 0;
+        transform: translateY(-20px);
+        animation: headingFade 1.2s ease forwards 0.6s;
+    }
+
+    @keyframes headingFade {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-6">
+
+
+<div id="loader">
+    <div id="loader-logo">NGN LMTS</div>
+</div>
+
+<script>
+    window.addEventListener("load", () => {
+        // keep screen for a second
+        setTimeout(() => {
+            document.getElementById("loader").classList.add("fade-out");
+            setTimeout(() => {
+                document.body.classList.add("show-content");
+            }, 800);
+        }, 1000);
+    });
+</script>
+
+<!-- ============================= -->
+<!--       PAGE CONTENT          -->
+<!-- ============================= -->
+
+<h1 class="heading-animate text-4xl sm:text-5xl font-extrabold text-red-700 mb-6 drop-shadow-lg">
+    NGN LMTS PORTAL
+</h1>
+
+<div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-4xl">
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- KZN Daily Information Tracking Sheet -->
+        <a href="form.html" 
+            class="flex items-center justify-center h-16 border-2 border-red-600 bg-white text-black font-semibold rounded-lg hover:bg-red-50 transition px-4">
+            KZN Daily Information Tracking Sheet
+        </a>
+
+        <!-- Gauteng Tracking Sheets Hover Dropdown -->
+        <div class="relative group">
+            <div class="w-full h-16 border-2 border-red-600 bg-white text-black font-semibold rounded-lg hover:bg-red-50 transition flex justify-between items-center px-4 cursor-pointer" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                Gauteng Tracking Sheets
+                <span>&#9662;</span>
+            </div>
+
+            <div class="absolute hidden opacity-0 group-hover:opacity-100 group-hover:block transition-opacity mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                <a href="gp_maintenance.html" class="block px-4 py-3 hover:bg-gray-100">Maintenance Tracking Sheet</a>
+                <a href="build.html" class="block px-4 py-3 hover:bg-gray-100">Link Builds Tracking Sheet</a>
+            </div>
+        </div>
+
+        <!-- Admin Panel Hover Dropdown -->
+        <div class="relative group">
+            <div class="w-full h-16 border-2 border-red-600 bg-white text-black font-semibold rounded-lg hover:bg-red-50 transition flex justify-between items-center px-4 cursor-pointer" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                Admin Panel
+                <span>&#9662;</span>
+            </div>
+
+            <div class="absolute hidden opacity-0 group-hover:opacity-100 group-hover:block transition-opacity mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                <a href="admin.php" class="block px-4 py-3 hover:bg-gray-100">KZN Daily Information Tracking Sheet</a>
+                <a href="gp_admin.php" class="block px-4 py-3 hover:bg-gray-100">Gauteng Maintenance Tracking Sheet</a>
+                <a href="buildAdmin.php" class="block px-4 py-3 hover:bg-gray-100">Gauteng Link Builds Tracking Sheet</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="mt-20 w-full max-w-4xl text-center text-gray-700">
+    <p class="italic mb-2">&copy; 2025 Software-Acumen</p>
+
+    <div class="flex flex-wrap justify-center gap-2 text-sm">
+
+        <a href="form.html" class="text-red-600 hover:underline">KZN LMTS</a> | 
+        <a href="gp_maintenance.html" class="text-red-600 hover:underline">GP Maintenance</a> | 
+        <a href="build.html" class="text-red-600 hover:underline">GP Link Builds</a> | 
+
+        <!-- Footer Admin Hover Dropdown -->
+        <div class="relative inline-block group">
+            <span class="text-red-600 hover:underline font-semibold cursor-pointer" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                Admin Panel &#9662;
+            </span>
+
+            <div class="absolute hidden opacity-0 group-hover:opacity-100 group-hover:block transition-opacity mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10 w-52">
+                <a href="admin.php" class="block px-4 py-2 hover:bg-gray-100">KZN lmts form</a>
+                <a href="gp_admin.php" class="block px-4 py-2 hover:bg-gray-100">GP Maintenance</a>
+                <a href="buildAdmin.php" class="block px-4 py-2 hover:bg-gray-100">GP Link Builds</a>
+            </div>
+        </div>
+
+    </div>
+</footer>
+
+</body>
+</html>

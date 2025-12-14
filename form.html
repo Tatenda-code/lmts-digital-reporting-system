@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Information Tracking Sheet</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body {
+      background: radial-gradient(circle at top, #725e5eff, #0f0f0fff);
+  }
+  .inner-box {
+      background: rgba(0,0,0,0.3);
+      padding: 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 0 2rem rgba(255,0,0,0.5);
+      border: 1px solid #f00;
+      color: white;
+  }
+  input, textarea, select {
+      background-color: #1f1f1f; 
+      color: #fff;
+      font-weight: bold;
+      border: 1px solid #f00;
+      padding: 0.5rem 0.75rem; 
+      border-radius: 0.75rem;  
+      font-size: 1rem;
+  }
+  select option {
+      background-color: #1f1f1f;
+      color: #fff;
+  }
+  input:focus, textarea:focus, select:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255,0,0,0.5);
+  }
+  button {
+      background: linear-gradient(to right, #b91c1c, #f87171);
+      color: white;
+  }
+  button:hover {
+      background: linear-gradient(to right, #ef4444, #fca5a5);
+  }
+  .admin-btn {
+      background: linear-gradient(to right, #374151, #1f2937);
+      color: white;
+  }
+  .admin-btn:hover {
+      background: linear-gradient(to right, #4b5563, #111827);
+  }
+  h1 {
+      color: white;
+  }
+</style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+<div class="w-full max-w-2xl inner-box">
+
+  <!-- Admin Panel Button -->
+  <div class="flex justify-end mb-6 gap-2 flex-wrap">
+    <a href="admin.php" class="admin-btn px-6 py-2 rounded-lg shadow text-sm sm:text-base text-center w-full sm:w-auto">
+      Admin Panel
+    </a>
+  </div>
+
+  <!-- Title -->
+  <h1 class="text-2xl sm:text-3xl font-extrabold text-center mb-8 tracking-tight drop-shadow-lg">
+    Daily Information Tracking Sheet
+  </h1>
+
+  <form action="submit.php" method="post" class="space-y-4 sm:space-y-5">
+
+    <!-- Technician -->
+    <div>
+      <label class="block font-semibold mb-2">Technician Name *</label>
+      <input type="text" name="technician" class="w-full p-2 rounded" required>
+    </div>
+
+    <!-- Start Date -->
+    <div>
+      <label class="block font-semibold mb-2">Start Date *</label>
+      <div class="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0">
+        <select name="day" required class="flex-1 p-2 rounded">
+          <option value="" disabled selected>Day</option>
+          <script>
+            for(let i=1;i<=31;i++){
+              let val=i.toString().padStart(2,'0');
+              document.write('<option value="'+val+'">'+val+'</option>');
+            }
+          </script>
+        </select>
+
+        <select name="month" required class="flex-1 p-2 rounded">
+          <option value="" disabled selected>Month</option>
+          <option value="01">January</option><option value="02">February</option>
+          <option value="03">March</option><option value="04">April</option>
+          <option value="05">May</option><option value="06">June</option>
+          <option value="07">July</option><option value="08">August</option>
+          <option value="09">September</option><option value="10">October</option>
+          <option value="11">November</option><option value="12">December</option>
+        </select>
+
+        <select name="year" required class="flex-1 p-2 rounded">
+          <option value="" disabled selected>Year</option>
+          <script>
+            for(let i=2020;i<=2026;i++){
+              document.write('<option value="'+i+'">'+i+'</option>');
+            }
+          </script>
+        </select>
+      </div>
+    </div>
+
+    <!-- Start Time -->
+    <div>
+      <label class="block font-semibold mb-2">Start Time *</label>
+      <div class="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0">
+        <select name="start_hour" required class="flex-1 p-2 rounded">
+          <option value="" disabled selected>Hour</option>
+          <script>
+            for(let i=0;i<24;i++){
+              let val=i.toString().padStart(2,'0');
+              document.write('<option value="'+val+'">'+val+'</option>');
+            }
+          </script>
+        </select>
+
+        <select name="start_minute" required class="flex-1 p-2 rounded">
+          <option value="" disabled selected>Minute</option>
+          <script>
+            for(let i=0;i<60;i+=5){
+              let val=i.toString().padStart(2,'0');
+              document.write('<option value="'+val+'">'+val+'</option>');
+            }
+          </script>
+        </select>
+      </div>
+    </div>
+
+    <!-- End Time -->
+    <div>
+      <label class="block font-semibold mb-2">End Time *</label>
+      <div class="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0">
+        <select name="end_hour" required class="flex-1 p-2 rounded">
+          <option value="" disabled selected>Hour</option>
+          <script>
+            for(let i=0;i<24;i++){
+              let val=i.toString().padStart(2,'0');
+              document.write('<option value="'+val+'">'+val+'</option>');
+            }
+          </script>
+        </select>
+
+        <select name="end_minute" required class="flex-1 p-2 rounded">
+          <option value="" disabled selected>Minute</option>
+          <script>
+            for(let i=0;i<60;i+=5){
+              let val=i.toString().padStart(2,'0');
+              document.write('<option value="'+val+'">'+val+'</option>');
+            }
+          </script>
+        </select>
+      </div>
+    </div>
+
+    <!-- Remaining fields -->
+    <div>
+      <label class="block font-semibold mb-2">Link / Fault Ref *</label>
+      <input type="text" name="fault_ref" class="w-full p-2 rounded" required>
+    </div>
+
+    <div>
+      <label class="block font-semibold mb-2">Link Fault Description *</label>
+      <textarea name="fault_description" class="w-full p-2 rounded" rows="3" maxlength="300" required></textarea>
+    </div>
+
+    <div>
+      <label class="block font-semibold mb-2">Link / Fault Status *</label>
+      <select name="fault_status" class="w-full p-2 rounded" required>
+        <option value="" disabled selected>Select status</option>
+        <option value="Completed">Completed</option>
+        <option value="Progress">Progress</option>
+        <option value="Deferred">Deferred</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block font-semibold mb-2">Summary of Work *</label>
+      <textarea name="work_summary" class="w-full p-2 rounded" rows="3" maxlength="300" required></textarea>
+    </div>
+
+    <!-- Material Used -->
+    <div>
+      <label class="block font-semibold mb-2">Material Used</label>
+      <select name="material_used" class="w-full p-2 rounded">
+        <option value="" disabled selected>Select Material</option>
+        <option value="204B">204B</option>
+        <option value="Fist">Fist</option>
+        <option value="1x2">1x2 Splitter</option>
+        <option value="1x4">1x4 Splitter</option>
+        <option value="1x16">1x16 Splitter</option>
+        <option value="1x32">1x32 Splitter</option>
+        <option value="Patch Panel">Patch Panel</option>
+        <option value="Patch Code">Patch Code</option>
+        <option value="ONT">ONT</option>
+      </select>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="w-full p-3 rounded font-bold shadow-lg">
+      Submit
+    </button>
+
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Link build tracking sheet</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+    background: radial-gradient(circle at top, #725e5eff, #0f0f0fff);
+}
+.inner-box {
+    background: rgba(0,0,0,0.3);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 0 2rem rgba(255,0,0,0.5);
+    border: 1px solid #f00;
+    color: white;
+}
+input, textarea, select {
+    background-color: #1f1f1f;
+    color: #fff;
+    font-weight: bold;
+    border: 1px solid #f00;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+}
+select option {
+    background-color: #1f1f1f;
+    color: #fff;
+}
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255,0,0,0.5);
+}
+button {
+    background: linear-gradient(to right, #1d4ed8, #60a5fa);
+    color: white;
+}
+button:hover {
+    background: linear-gradient(to right, #2563eb, #93c5fd);
+}
+.admin-btn {
+    background: linear-gradient(to right, #374151, #1f2937);
+    color: white;
+}
+.admin-btn:hover {
+    background: linear-gradient(to right, #4b5563, #111827);
+}
+h1 { color:white; }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    // Mileage calculation
+    const startMileage = document.querySelector("input[name='start_mileage']");
+    const endMileage   = document.querySelector("input[name='end_mileage']");
+    const totalMileage = document.querySelector("input[name='total_km']");
+
+    function validateMileage() {
+        const start = parseFloat(startMileage.value);
+        const end   = parseFloat(endMileage.value);
+
+        if (isNaN(start) || isNaN(end)) {
+            totalMileage.value = "";
+            return;
+        }
+
+        if (start > end) {
+            totalMileage.value = "*Review your mileage entries*"; 
+            return;
+        }
+
+        if (start === end) {
+            totalMileage.value = "0.0";
+            return;
+        }
+
+        totalMileage.value = (end - start).toFixed(1);
+    }
+
+    startMileage.addEventListener("input", validateMileage);
+    endMileage.addEventListener("input", validateMileage);
+
+    // Conditional Date Completed required only if percentage is 100
+    const percentageField = document.querySelector("select[name='percentage']");
+    const compDay   = document.querySelector("select[name='comp_day']");
+    const compMonth = document.querySelector("select[name='comp_month']");
+    const compYear  = document.querySelector("select[name='comp_year']");
+
+    function updateDateRequired() {
+        const value = parseInt(percentageField.value);
+        if(value === 100) {
+            compDay.required = true;
+            compMonth.required = true;
+            compYear.required = true;
+        } else {
+            compDay.required = false;
+            compMonth.required = false;
+            compYear.required = false;
+        }
+    }
+
+    updateDateRequired();
+    percentageField.addEventListener("change", updateDateRequired);
+
+});
+</script>
+
+</head>
+
+<body class="flex items-center justify-center min-h-screen p-4">
+
+<div class="w-full max-w-2xl inner-box">
+
+    <!-- Admin Panel Button -->
+    <div class="flex justify-end mb-6 gap-2 flex-wrap">
+        <a href="buildAdmin.php" class="admin-btn px-6 py-2 rounded-lg shadow text-sm sm:text-base text-center w-full sm:w-auto">
+            Admin Panel
+        </a>
+    </div>
+
+    <!-- Title -->
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-center mb-8 tracking-tight drop-shadow-lg">
+        LINK BUILD TRACKING SHEET
+    </h1>
+
+    <form action="buildSubmit.php" method="post" class="space-y-4 sm:space-y-5">
+
+        <!-- Technician -->
+        <div>
+            <label class="block font-semibold mb-2">Technician Name *</label>
+            <input type="text" name="technician" class="w-full p-2 rounded" required>
+        </div>
+
+        <!-- Start Date -->
+        <div>
+            <label class="block font-semibold mb-2">Start Date *</label>
+            <div class="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0">
+                <select name="start_day" class="flex-1 p-2 rounded" required>
+                    <option value="" disabled selected>Day</option>
+                    <script>for(let i=1;i<=31;i++){let v=i.toString().padStart(2,'0');document.write(`<option value="${v}">${v}</option>`);}</script>
+                </select>
+                <select name="start_month" class="flex-1 p-2 rounded" required>
+                    <option value="" disabled selected>Month</option>
+                    <option value="01">January</option><option value="02">February</option>
+                    <option value="03">March</option><option value="04">April</option>
+                    <option value="05">May</option><option value="06">June</option>
+                    <option value="07">July</option><option value="08">August</option>
+                    <option value="09">September</option><option value="10">October</option>
+                    <option value="11">November</option><option value="12">December</option>
+                </select>
+                <select name="start_year" class="flex-1 p-2 rounded" required>
+                    <option value="" disabled selected>Year</option>
+                    <script>for(let y=2020;y<=2026;y++){document.write(`<option value="${y}">${y}</option>`);}</script>
+                </select>
+            </div>
+        </div>
+
+        <!-- Start Time -->
+        <div>
+            <label class="block font-semibold mb-2">Start Time *</label>
+            <div class="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0">
+                <select name="start_hour" required class="flex-1 p-2 rounded">
+                    <option value="" disabled selected>Hour</option>
+                    <script>for(let i=0;i<24;i++){let v=i.toString().padStart(2,'0');document.write(`<option value="${v}">${v}</option>`);}</script>
+                </select>
+                <select name="start_minute" required class="flex-1 p-2 rounded">
+                    <option value="" disabled selected>Minute</option>
+                    <script>for(let i=0;i<60;i+=5){let v=i.toString().padStart(2,'0');document.write(`<option value="${v}">${v}</option>`);}</script>
+                </select>
+            </div>
+        </div>
+
+        <!-- End Time -->
+        <div>
+            <label class="block font-semibold mb-2">End Time *</label>
+            <div class="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0">
+                <select name="end_hour" required class="flex-1 p-2 rounded">
+                    <option value="" disabled selected>Hour</option>
+                    <script>for(let i=0;i<24;i++){let v=i.toString().padStart(2,'0');document.write(`<option value="${v}">${v}</option>`);}</script>
+                </select>
+                <select name="end_minute" required class="flex-1 p-2 rounded">
+                    <option value="" disabled selected>Minute</option>
+                    <script>for(let i=0;i<60;i+=5){let v=i.toString().padStart(2,'0');document.write(`<option value="${v}">${v}</option>`);}</script>
+                </select>
+            </div>
+        </div>
+
+        <!-- Link Reference -->
+        <div>
+            <label class="block font-semibold mb-2">Link Reference *</label>
+            <input type="text" name="link_ref" class="w-full p-2 rounded" required>
+        </div>
+
+        <!-- Link Description -->
+        <div>
+            <label class="block font-semibold mb-2">Link Description *</label>
+            <input type="text" name="link_description" class="w-full p-2 rounded" required>
+        </div>
+
+        <!-- Percentage Completed -->
+        <div>
+            <label class="block font-semibold mb-2">Percentage Completed *</label>
+            <select name="percentage" class="w-full p-2 rounded" required>
+                <option value="" disabled selected>Select</option>
+                <script>for(let p=10;p<=100;p+=10){document.write(`<option value="${p}">${p}%</option>`);}</script>
+            </select>
+        </div>
+
+        <!-- Status -->
+        <div>
+            <label class="block font-semibold mb-2">Link Status *</label>
+            <select name="status" class="w-full p-2 rounded" required>
+                <option value="" disabled selected>Select</option>
+                <option>Complete</option><option>In Progress</option>
+                <option>Deferred</option><option>Cancelled</option>
+            </select>
+        </div>
+
+        <!-- ATP -->
+        <div>
+            <label class="block font-semibold mb-2">ATP Done *</label>
+            <select name="atp" class="w-full p-2 rounded" required>
+                <option value="" disabled selected>Select</option>
+                <option>Yes</option><option>No</option>
+            </select>
+        </div>
+
+        <!-- Link Length -->
+        <div>
+            <label class="block font-semibold mb-2">Link Length (km) *</label>
+            <input type="number" name="length" class="w-full p-2 rounded" step="0.1" min="0" required>
+        </div>
+
+        <!-- Link Type -->
+        <div>
+            <label class="block font-semibold mb-2">Link Type *</label>
+            <select name="link_type" class="w-full p-2 rounded" required>
+                <option value="" disabled selected>Select</option>
+                <option>Long</option><option>Short</option>
+                <option>Long x2</option><option>Long x3</option>
+                <option>Long x4</option><option>Long x5</option>
+                <option>Long x6</option>
+            </select>
+        </div>
+
+        <!-- AS Build -->
+        <div>
+            <label class="block font-semibold mb-2">A.S Build Submitted *</label>
+            <select name="as_build" class="w-full p-2 rounded" required>
+                <option value="" disabled selected>Select</option>
+                <option>Yes</option><option>No</option>
+            </select>
+        </div>
+
+        <!-- Date Completed -->
+        <div>
+            <label class="block font-semibold mb-2">Date Completed</label>
+            <div class="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0">
+                <select name="comp_day" class="flex-1 p-2 rounded">
+                    <option value="" disabled selected>Day</option>
+                    <script>for(let i=1;i<=31;i++){let v=i.toString().padStart(2,'0');document.write(`<option value="${v}">${v}</option>`);}</script>
+                </select>
+                <select name="comp_month" class="flex-1 p-2 rounded">
+                    <option value="" disabled selected>Month</option>
+                    <option value="01">January</option><option value="02">February</option>
+                    <option value="03">March</option><option value="04">April</option>
+                    <option value="05">May</option><option value="06">June</option>
+                    <option value="07">July</option><option value="08">August</option>
+                    <option value="09">September</option><option value="10">October</option>
+                    <option value="11">November</option><option value="12">December</option>
+                </select>
+                <select name="comp_year" class="flex-1 p-2 rounded">
+                    <option value="" disabled selected>Year</option>
+                    <script>for(let y=2020;y<=2026;y++){document.write(`<option value="${y}">${y}</option>`);}</script>
+                </select>
+            </div>
+        </div>
+
+        <!-- Start Mileage -->
+        <div>
+            <label class="block font-semibold mb-2">Start Mileage (km) *</label>
+            <input type="number" name="start_mileage" class="w-full p-2 rounded" min="0" step="0.1" required>
+        </div>
+
+        <!-- End Mileage -->
+        <div>
+            <label class="block font-semibold mb-2">End Mileage (km) *</label>
+            <input type="number" name="end_mileage" class="w-full p-2 rounded" min="0" step="0.1" required>
+        </div>
+
+        <!-- Total KM (auto calculated) -->
+        <div>
+            <label class="block font-semibold mb-2">Total km *</label>
+            <input type="text" name="total_km" class="w-full p-2 rounded" readonly required>
+        </div>
+
+        <!-- Comments -->
+        <div>
+            <label class="block font-semibold mb-2">Comments *</label>
+            <textarea name="comments" class="w-full p-2 rounded" rows="3" required></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="w-full p-3 rounded font-bold shadow-lg">
+            Submit
+        </button>
+
+    </form>
+</div>
+
+</body>
+</html>

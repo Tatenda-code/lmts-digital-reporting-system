@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NGN LMTS Portal</title>
+
+<!-- Favicons -->
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon-64x64.png">
+<link rel="icon" type="image/png" sizes="128x128" href="/favicon-128x128.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png">
+<link rel="shortcut icon" href="/favicon-64x64.png">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  @keyframes slideUp {
+    0% { transform: translateY(50px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  .animate-slide-up { animation: slideUp 4s ease forwards; }
+  body { transition: opacity 0.8s ease-in-out; }
+  body.fade-out { opacity: 0; }
+</style>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 overflow-hidden">
+
+<!-- Welcome Splash -->
+<div id="welcomeScreen" class="fixed inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white z-50 px-4 text-center">
+  <h1 id="mainWelcome" class="text-4xl sm:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-red-400 to-pink-500 opacity-0">
+    Software Acumen
+  </h1>
+  <p id="subWelcome" class="mt-2 text-lg sm:text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 opacity-0">
+    Engineering Digital Excellence
+  </p>
+  <div id="formWelcome" class="mt-6 flex flex-col items-center opacity-0">
+    <h2 class="text-3xl sm:text-4xl font-bold text-white">NGN LMTS FORM</h2>
+    <p class="text-sm sm:text-base text-white mt-1">Quick and friendly</p>
+  </div>
+</div>
+
+<!-- Login Form -->
+<div id="loginContainer" class="w-full max-w-md bg-white shadow-2xl rounded-2xl p-8 hidden">
+  <h1 class="text-3xl font-bold text-center text-indigo-600 mb-6 tracking-tight">Login</h1>
+
+
+  <form id="loginForm" class="space-y-5" method="POST" action="login.php">
+    <div>
+      <label class="block font-semibold mb-1 text-gray-700">Username</label>
+      <input type="text" name="username" class="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition shadow-sm" placeholder="Enter username" required>
+    </div>
+
+    <div>
+      <label class="block font-semibold mb-1 text-gray-700">Password</label>
+      <input type="password" name="password" class="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition shadow-sm" placeholder="Enter password" required>
+    </div>
+
+    <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-xl hover:bg-indigo-700 shadow-lg font-semibold transition-all duration-200">
+      Login
+    </button>
+
+    <p id="errorMessage" class="text-red-500 text-center mt-2 hidden">Invalid username or password</p>
+  </form>
+</div>
+
+<script>
+// --- Splash screen & animation ---
+document.addEventListener("DOMContentLoaded", function() {
+  const welcomeScreen = document.getElementById("welcomeScreen");
+  const loginContainer = document.getElementById("loginContainer");
+  const mainWelcome = document.getElementById("mainWelcome");
+  const subWelcome = document.getElementById("subWelcome");
+  const formWelcome = document.getElementById("formWelcome");
+
+  // Fade in welcome text
+  setTimeout(() => {
+    mainWelcome.classList.add("opacity-100", "transition-opacity", "duration-1000");
+    subWelcome.classList.add("opacity-100", "transition-opacity", "duration-1000");
+  }, 100);
+
+
+  setTimeout(() => { formWelcome.classList.add("animate-slide-up"); }, 3000);
+
+
+  setTimeout(() => {
+    welcomeScreen.classList.add("transition", "duration-1000", "opacity-0");
+    setTimeout(() => {
+      welcomeScreen.style.display = "none";
+      loginContainer.classList.remove("hidden");
+    }, 1000);
+  }, 7000);
+});
+</script>
+
+</body>
+</html>
+
