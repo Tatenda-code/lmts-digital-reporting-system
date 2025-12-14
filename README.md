@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **LMTS Digital Reporting System** is a production-ready web application designed and developed to replace a previously paper-based daily LMTS reporting process.
+The **LMTS Digital Reporting System** is a production-ready web application designed and developed to replace a previously paper-based daily LMTS reporting process for a fiber Company based in South Africa.
 
 The system enables users to submit daily operational data online, which is securely stored in a centralized database for fast retrieval, auditing, and reporting.
 
