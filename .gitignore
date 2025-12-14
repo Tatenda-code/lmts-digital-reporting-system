@@ -1,0 +1,16 @@
+# Ignore real config files
+config.php
+.env
+
+# Ignore uploads or temporary files
+/uploads
+*.log
+*.tmp
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE/editor files (optional)
+*.vscode/
+*.idea/
